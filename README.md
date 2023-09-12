@@ -18,17 +18,26 @@
 
 1. ping
    **用法**：
+   
    ![ping_h.png](https://img1.imgtp.com/2023/09/12/lP5ddR7q.png)
+   
    **使用效果**：在第一次使用ping后关闭服务器，已表现出ping的效果
+   
    ![ping_use.png](https://img1.imgtp.com/2023/09/12/ZKK9UmlY.png)
+   
    ping命令用于检测和服务器的连通性，正常返回是Ok，连接失败返回具体错误信息
 
 2. set & get
    用法：
+   
    ![set_h.png](https://img1.imgtp.com/2023/09/12/pfQ3TkWc.png)
+   
    ![get_h.png](https://img1.imgtp.com/2023/09/12/eJOzQLuZ.png)
+   
    使用效果：左右分别为两终端开启的client
+   
    ![set_use.png](https://img1.imgtp.com/2023/09/12/pRCuCUA7.png)
+
 
 > 多个连接到同一个redis的客户端共享一个数据库，可跨客户端共享键值对
 
@@ -40,9 +49,13 @@
 
 3. del
    用法：
+   
    ![del_h.png](https://img1.imgtp.com/2023/09/12/Ea1mtDYV.png)
+   
    使用效果：左右分别为两终端开启的client
+   
    ![del_use.png](https://img1.imgtp.com/2023/09/12/YCCl1Mw7.png)
+   
 
 > del可以删除一个键值对
 > 
@@ -50,10 +63,15 @@
 
 4. subscribe & publish
    用法：
+   
    ![subscrible_h.png](https://img1.imgtp.com/2023/09/12/SHgru8bz.png)
+   
    ![publish_h.png](https://img1.imgtp.com/2023/09/12/hrZDDDhP.png)
+   
    使用效果：左右分别为两终端开启的client
+   
    ![subscribe.png](https://img1.imgtp.com/2023/09/12/hR8W9oUE.png)
+   
 
 > subscribe后会陷入循环，不再响应命令以防和输出混淆，该channel的信息会一行行显示在命令行中如图所示
 > publish会将信息添加到channel
