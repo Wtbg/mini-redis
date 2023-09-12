@@ -37,6 +37,18 @@ enum Commands {
     },
     /// quit the client
     Quit,
+    /// publish a message to a channel
+    Publish {
+        /// channel
+        channel: String,
+        /// message
+        message: String,
+    },
+    /// subscribe a channel
+    Subscribe {
+        /// channel
+        channel: String,
+    },
 }
 lazy_static! {
     static ref CLIENT: volo_gen::mini_redis::MiniRedisServiceClient = {
@@ -96,6 +108,37 @@ async fn main() {
             }
             Commands::Quit => {
                 break;
+            }
+            Commands::Publish { channel, message } => {
+                let result = CLIENT.publish(volo_gen::mini_redis::MessagePublish {
+                    channel: channel.into(),
+                    message: message.into(),
+                }).await;
+                if let Ok(status) = result {
+                    output_status(status);
+                } else {
+                    println!("Err({:?})", result.err().unwrap());
+                }
+            }
+            Commands::Subscribe { channel } => {
+                let mut code = 0;
+                loop {
+                    let result = CLIENT.subscribe(volo_gen::mini_redis::MessageGet {
+                        channel: channel.clone().into(),
+                        code,
+                    }).await;
+                    if let Ok(response) = result {
+                        if let Some(message) = response.message {
+                            println!("message: {:?}", message);
+                            code = response.code.unwrap();
+                        }
+                    } else {
+                        println!("Err({:?})", result.err().unwrap());
+                        break;
+                    }
+                    // sleep 1 second
+                    std::thread::sleep(std::time::Duration::from_secs(1));
+                }
             }
         }
     }
